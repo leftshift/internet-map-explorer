@@ -1,0 +1,7 @@
+svg {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    
+    width: 800px;
+    height: 800px;
+}
