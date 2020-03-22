@@ -16,6 +16,7 @@ svg.call(d3.zoom()
 const grid = g.append("g");
 
 const subnetText = d3.select('#subnet');
+const gridText = d3.select('#grid-label');
 
 function zoomed() {
   g.attr("transform", d3.event.transform);
@@ -25,13 +26,19 @@ function divide(subnet) {
   grid.selectAll("*").remove();
   const increment = width / (Math.pow(2, subnet/2));
   console.log(increment);
+  let strokeWidth = 4;
+  if (subnet > 8) {
+    strokeWidth = 2;
+  } else if (subnet > 12) {
+    strokeWidth = 1;
+  }
   for (var i = 0; i <= width; i += increment) {
     grid.append("line")
       .attr("x1", 0)
       .attr("x2", 4096)
       .attr("y1", i)
       .attr("y2", i)
-      .attr("stroke-width", 2)
+      .attr("stroke-width", strokeWidth)
       .attr("stroke", "white");
 
     grid.append("line")
@@ -39,7 +46,7 @@ function divide(subnet) {
       .attr("x2", i)
       .attr("y1", 0)
       .attr("y2", 4096)
-      .attr("stroke-width", 2)
+      .attr("stroke-width", strokeWidth)
       .attr("stroke", "white");
   }
 }
@@ -87,13 +94,14 @@ upload.addEventListener('change', function (e) {
       image.attr('xlink:href', currentBlobData);
 });
 
-const dropdown = d3.select("#grid")
-  .on("change", dropdownChange);
+const slider = d3.select("#grid")
+  .on("input", sliderChange);
 
-function dropdownChange() {
+function sliderChange() {
   const gridSize = d3.select(this).property('value');
-  divide(gridSize);
+  gridText.text(gridSize * 2);
+  divide(gridSize * 2);
 }
 
 
-divide(16);
+divide(8);
