@@ -7,9 +7,6 @@ const svg = d3.select('svg')
 const g = svg.append("g");
 
 const image = g.append('svg:image')
-  .attr('xlink:href', 'map.png')  // can also add svg file here
-//      x: 0,
-//      y: 0
 
 svg.call(d3.zoom()
   .extent([[0, 0], [4096, 4096]])
@@ -25,6 +22,7 @@ function zoomed() {
 }
 
 function divide(subnet) {
+  grid.selectAll("*").remove();
   const increment = width / (Math.pow(2, subnet/2));
   console.log(increment);
   for (var i = 0; i <= width; i += increment) {
@@ -59,9 +57,8 @@ function getSvgPoint(element, x, y) {
 function coordinateToSubnet(subnet, x, y) {
   const sub_x = Math.floor(x);
   const sub_y = Math.floor(y);
-  console.log(sub_x + ' ' + sub_y);
   const addr = hilbertCurve.pointToIndex({x: sub_x, y: sub_y}, 16) * 256;
-  subnetText.text(ipFromInt(addr) + '/24');
+  return ipFromInt(addr) + '/24';
 }
 
 function ipFromInt(ipl) {
@@ -72,11 +69,10 @@ function ipFromInt(ipl) {
 };
 
 svg.node().addEventListener('mousemove', e => {
-    const x = e.clientX,
-      y = e.clientY,
-      svgL = getSvgPoint(image, x, y);
-  console.log(svgL);
-  console.log(coordinateToSubnet(16, svgL.x, svgL.y));
+  const x = e.clientX,
+        y = e.clientY,
+        svgL = getSvgPoint(image, x, y);
+  subnetText.text(coordinateToSubnet(16, svgL.x, svgL.y));
 });
 
 const upload = document.getElementById('file-input');
@@ -90,6 +86,14 @@ upload.addEventListener('change', function (e) {
       currentBlobData = URL.createObjectURL(file);
       image.attr('xlink:href', currentBlobData);
 });
+
+const dropdown = d3.select("#grid")
+  .on("change", dropdownChange);
+
+function dropdownChange() {
+  const gridSize = d3.select(this).property('value');
+  divide(gridSize);
+}
 
 
 divide(16);

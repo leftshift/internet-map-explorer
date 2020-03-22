@@ -11,8 +11,13 @@
         <svg id="map"></svg>
         <div>
             <p>Hovered subnet: <span id="subnet"></span></p>
+            <input type="file" id="file-input" ></input>
+            <label for="grid">Grid size</label>
+            <select id="grid">
+                <option value="8">/8</option>
+                <option value="16">/16</option>
+            </select>
         </div>
-        <input type="file" id="file-input" ></input>
         <script src="https://d3js.org/d3.v5.min.js"></script>
         <script src="https://unpkg.com/hilbert-curve"></script>
         <script src="js/main.js" charset="utf-8"></script>
