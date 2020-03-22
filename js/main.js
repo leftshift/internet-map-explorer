@@ -10,7 +10,7 @@ const image = g.append('svg:image')
 
 svg.call(d3.zoom()
   .extent([[0, 0], [4096, 4096]])
-  .scaleExtent([1, 20])
+  .scaleExtent([1, 100])
   .on("zoom", zoomed));
 
 const grid = g.append("g");
