@@ -8,15 +8,22 @@
     </head>
     <body>
         <h1>Internet Map Explorer</h1>
-        <svg id="map"></svg>
-        <div>
-            <p>Hovered subnet: <span id="subnet"></span></p>
-            <input type="file" id="file-input" ></input>
-            <label for="grid">Grid size</label>
-            <select id="grid">
-                <option value="8">/8</option>
-                <option value="16">/16</option>
-            </select>
+        <div id="root">
+            <div class="split">
+                <svg id="map"></svg>
+            </div>
+            <div class="split">
+                <p>
+                    Hovered subnet: <span id="subnet"></span>
+                </p>
+                <p>
+                    <input type="file" id="file-input" ></input>
+                </p>
+                <p>
+                    <label for="grid">Grid size: <span id='grid-label'>8</span></label><br>
+                    <input type="range" min="0" max="12" value="4" id="grid">
+                </p>
+            </div>
         </div>
         <script src="https://d3js.org/d3.v5.min.js"></script>
         <script src="https://unpkg.com/hilbert-curve"></script>
