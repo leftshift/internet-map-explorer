@@ -1,3 +1,6 @@
+import * as d3 from 'd3';
+import * as hilbertCurve from 'hilbert-curve';
+
 const height = 4096;
 const width = 4096;
 
@@ -18,8 +21,8 @@ const grid = g.append("g");
 const subnetText = d3.select('#subnet');
 const gridText = d3.select('#grid-label');
 
-function zoomed() {
-  g.attr("transform", d3.event.transform);
+function zoomed(event) {
+  g.attr("transform", event.transform);
 }
 
 function divide(subnet) {
