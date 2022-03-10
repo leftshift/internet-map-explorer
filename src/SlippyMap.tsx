@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, MouseEvent } from 'react';
 import * as d3_z from 'd3-zoom';
 import * as d3_s from 'd3-selection';
 import { HilbertAlgorithm } from 'hilbert-curve-ts';
@@ -7,6 +7,7 @@ import { Grid } from './Grid';
 
 interface SlippyMapProps {
   mapHref: string;
+  subnetHighlightSize: number;
   onSubnetHover: (subnet: string) => void;
 }
 
@@ -24,7 +25,7 @@ export function SlippyMap(props: SlippyMapProps) {
     setTransform(event.transform);
   }
 
-  function translateToAbsolutePoint(svg: SVGSVGElement, element: SVGElement, x: number, y: number) {
+  function translateToAbsolutePoint(svg: SVGSVGElement, element: SVGGElement, x: number, y: number) {
     const pt = svg.createSVGPoint();
     pt.x = x;
     pt.y = y;
@@ -64,8 +65,7 @@ export function SlippyMap(props: SlippyMapProps) {
     d3_s.select<SVGSVGElement, unknown>(svgRef.current!).call(zoom);
   }, []);
 
-  const subnet = 8;
-  const divisions = Math.pow(2, subnet/2)
+  const divisions = Math.pow(2, props.subnetHighlightSize/2)
 
   return(
     <svg
